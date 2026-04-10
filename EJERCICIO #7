@@ -1,0 +1,24 @@
+using System;
+class Program
+{
+    static double CalcularDosis(double peso, double dosisPorKg)
+    {
+        return peso * dosisPorKg;
+    }
+    static void MostrarResultado(string nombre, double dosis)
+    {
+        Console.WriteLine("Paciente: " + nombre);
+        Console.WriteLine("Dosis recomendada: " + dosis + " mg");
+    }
+    static void Main(string[] args)
+    {
+        Console.Write("Ingrese el nombre del paciente: ");
+        string nombre = Console.ReadLine();
+        Console.Write("Ingrese el peso del paciente (kg): ");
+        double peso = Convert.ToDouble(Console.ReadLine());
+        Console.Write("Ingrese la dosis por kg (mg): ");
+        double dosisPorKg = Convert.ToDouble(Console.ReadLine());
+        double dosis = CalcularDosis(peso, dosisPorKg);
+        MostrarResultado(nombre, dosis);
+    }
+}
