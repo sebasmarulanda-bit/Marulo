@@ -1,0 +1,30 @@
+using System;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        int numeroHistoria = 0;
+        bool datoValido = false;
+
+        while (!datoValido)
+        {
+            try
+            {
+                Console.Write("Ingrese el numero de historia clinica: ");
+                numeroHistoria = Convert.ToInt32(Console.ReadLine());
+                datoValido = true; 
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Error: Debe ingresar solo numeros, no letras.");
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Ocurrio un error inesperado. Intente nuevamente.");
+            }
+        }
+
+        Console.WriteLine("Numero de historia clinica registrado: " + numeroHistoria);
+    }
+}
