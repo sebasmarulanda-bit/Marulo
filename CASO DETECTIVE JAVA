@@ -1,0 +1,244 @@
+import java.util.Scanner;
+
+public class detective 
+{
+
+    // Atributos del detective
+    protected int id;
+    protected String nombre;
+    protected String agencia;
+    protected String rango;
+
+    // Constructor
+    public detective(int id, String nombre, String agencia, String rango) 
+    {
+        this.id = id;
+        this.nombre = nombre;
+        this.agencia = agencia;
+        this.rango = rango;
+    }
+
+    // Método para reportarse
+    public void reportar() 
+    {
+        System.out.println(nombre + " reporta a la agencia " + agencia);
+    }
+
+    // Método para mostrar información
+    public String obtenerInfo() 
+    {
+        return nombre + " [" + rango + "]";
+    }
+
+    // Método principal
+    public static void main(String[] args) 
+    {
+
+        Scanner teclado = new Scanner(System.in);
+
+        int pistas = 0;
+        int opcion;
+        boolean casoResuelto = false;
+
+        // Pantalla de bienvenida
+        System.out.println("======================================");
+        System.out.println("      DESPACHO HOLMES & ASOCIADOS");
+        System.out.println("           CASO #1: HIDDEN");
+        System.out.println("======================================");
+
+        System.out.println("\nEl Dr. Mendoza fue encontrado muerto.");
+        System.out.println("Fue envenenado y apuñalado durante un apagón.");
+        System.out.println("Hay 4 sospechosos y todos tienen motivos...");
+        System.out.println("Tu misión es descubrir al culpable.\n");
+
+        // Datos del jugador
+        System.out.print("Detective, ¿cuál es tu nombre?: ");
+        String nombre = teclado.nextLine();
+
+        System.out.print("¿Cuántos años tienes?: ");
+        int edad = teclado.nextInt();
+        teclado.nextLine();
+
+        // Validacion de edad
+        if (edad < 12) 
+        {
+
+            System.out.println("\n Eres muy joven para ser detective.");
+            teclado.close();
+            return;
+
+        }
+         else if (edad <= 17) 
+        {
+
+            System.out.println("\n Puedes ser Detective Junior.");
+
+        } 
+        else if (edad <= 59) 
+        {
+
+            System.out.println("\n Bienvenido al equipo de detectives, " + nombre + "!");
+
+        }
+         else 
+        {
+
+            System.out.println("\n Detective senior con experiencia.");
+
+        }
+         System.out.println("======================================================================");
+        // Información del espía encubierto
+        String nombreClave = "Centinela Azul";
+        int personasRevisadas = 10;
+        int sospechososDetenidos = 2;
+
+        System.out.println("\n INFORME DEL AGENTE ENCUBIERTO:");
+        System.out.println("El agente " + nombreClave +
+        " revisó " + personasRevisadas +
+        " personas y detuvo " + sospechososDetenidos +
+        " sospechosos.\n");
+         System.out.println("======================================================================");
+
+        System.out.println("\nBienvenido, detective " + nombre + ".");
+        System.out.println("Necesitas mínimo 3 pistas para resolver el caso.\n");
+
+        // Bucle principal
+        while (!casoResuelto) 
+        {
+
+            System.out.println("================================");
+            System.out.println("        MENÚ DEL DETECTIVE");
+            System.out.println("================================");
+            System.out.println("1. Buscar pistas");
+            System.out.println("2. Interrogar sospechosos");
+            System.out.println("3. Resolver el caso");
+            System.out.println("4. Salir");
+            System.out.print("Elige una opción: ");
+
+            opcion = teclado.nextInt();
+            teclado.nextLine();
+
+            switch (opcion) 
+            {
+
+                // Buscar pistas
+                case 1:
+
+                    System.out.println("\n BUSCANDO PISTAS...\n");
+
+                    String[] evidencias = 
+                    {
+                        "Huella digital en la ventana",
+                        "Copa de vino con residuos",
+                        "Nota rasgada en el escritorio",
+                        "Cuchillo encontrado en la cocina"
+                    };
+
+                    for (int i = 0; i < evidencias.length; i++) 
+                    {
+
+                        pistas++;
+
+                        System.out.println(" Pista #" + pistas + ": " + evidencias[i]);
+                    }
+
+                    System.out.println("\nTotal de pistas encontradas: " + pistas);
+                    break;
+
+                // Interrogar sospechosos
+                case 2:
+
+                    System.out.println("\n INTERROGATORIOS\n");
+
+                    String[] sospechosos = 
+                    {
+                        "Victoria Mendoza",
+                        "Aurelio Vásquez",
+                        "Simón Quiroga",
+                        "Bruno Castellano"
+                    };
+
+                    int i = 0;
+                    String seguir = "si";
+
+                    while (seguir.equalsIgnoreCase("si") && i < sospechosos.length) 
+                    {
+
+                        System.out.println("Interrogando a: " + sospechosos[i]);
+                        System.out.println(" Dice que es inocente...\n");
+
+                        i++;
+
+                        if (i < sospechosos.length) 
+                        {
+
+                            System.out.print("¿Interrogar al siguiente? (si/no): ");
+                            seguir = teclado.nextLine();
+
+                        }
+                         else 
+                        {
+
+                            System.out.println(" No hay más sospechosos.");
+                        }
+                    }
+
+                    break;
+
+                // Resolver caso
+                case 3:
+
+                    System.out.println("\n RESOLUCIÓN DEL CASO\n");
+
+                    if (pistas >= 3) 
+                    {
+
+                        System.out.println(" Tienes suficientes pistas.");
+                        System.out.println(" El culpable es: Aurelio Vásquez");
+                        System.out.println(" ¡CASO RESUELTO, detective " + nombre + "!");
+                        casoResuelto = true;
+
+                    } 
+                    else if (pistas >= 1) 
+                    {
+
+                        System.out.println(" Tienes " + pistas + " pista(s).");
+                        System.out.println("Necesitas más pruebas.");
+                        System.out.println("Sigue investigando.");
+
+                    }
+                     else 
+                    {
+
+                        System.out.println(" No tienes pistas.");
+                        System.out.println("Ve a investigar primero.");
+                    }
+
+                    break;
+
+                // Salir
+                case 4:
+
+                    System.out.println("\n Saliendo del sistema...");
+                    casoResuelto = true;
+                    break;
+
+                // Opción inválida
+                default:
+
+                    System.out.println("\n Opción no válida.");
+                    break;
+            }
+
+            System.out.println();
+        }
+
+        // Final del juego
+        System.out.println("======================================");
+        System.out.println("   Gracias por jugar, detective " + nombre);
+        System.out.println("           CASO CERRADO");
+        System.out.println("======================================");
+
+        teclado.close();
+    }
+}
