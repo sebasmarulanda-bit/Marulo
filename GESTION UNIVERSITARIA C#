@@ -1,0 +1,199 @@
+namespace GestionUniversitaria
+{
+    class Estudiante
+    {
+        public int Id;
+        public string Nombre;
+        public string Programa;
+        public int Semestre;
+    }
+
+    class Docente
+    {
+        public int Id;
+        public string Nombre;
+        public string Facultad;
+    }
+
+    class Materia
+    {
+        public string Codigo;
+        public string Nombre;
+        public int Creditos;
+        public int CupoMaximo;
+        public int Inscritos = 0;
+    }
+
+    class Inscripcion
+    {
+        public int IdEstudiante;
+        public string CodigoMateria;
+        public double Nota1;
+        public double Nota2;
+        public double Nota3;
+
+        public double Definitiva()
+        {
+            return (Nota1 + Nota2 + Nota3) / 3;
+        }
+    }
+
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            List<Estudiante> estudiantes = new List<Estudiante>();
+            List<Docente> docentes = new List<Docente>();
+            List<Materia> materias = new List<Materia>();
+            List<Inscripcion> inscripciones = new List<Inscripcion>();
+
+            int opcion;
+
+            do
+            {
+                Console.WriteLine("\n Sistema Universitario ");
+                Console.WriteLine("1. Registrar estudiante");
+                Console.WriteLine("2. Registrar docente");
+                Console.WriteLine("3. Registrar materia");
+                Console.WriteLine("4. Inscribir estudiante");
+                Console.WriteLine("5. Registrar notas");
+                Console.WriteLine("6. Seguimiento del estudiante");
+                Console.WriteLine("7. Ver todo");
+                Console.WriteLine("0. Salir");
+                Console.Write("Opción: ");
+
+                opcion = int.Parse(Console.ReadLine());
+
+                switch (opcion)
+                {
+                    case 1:
+                        Estudiante e = new Estudiante();
+                        Console.Write("ID: ");
+                        e.Id = int.Parse(Console.ReadLine());
+                        Console.Write("Nombre: ");
+                        e.Nombre = Console.ReadLine();
+                        Console.Write("Programa: ");
+                        e.Programa = Console.ReadLine();
+                        Console.Write("Semestre: ");
+                        e.Semestre = int.Parse(Console.ReadLine());
+
+                        estudiantes.Add(e);
+                        break;
+
+                    case 2:
+                        Docente d = new Docente();
+                        Console.Write("ID: ");
+                        d.Id = int.Parse(Console.ReadLine());
+                        Console.Write("Nombre: ");
+                        d.Nombre = Console.ReadLine();
+                        Console.Write("Facultad: ");
+                        d.Facultad = Console.ReadLine();
+
+                        docentes.Add(d);
+                        break;
+
+                    case 3:
+                        Materia m = new Materia();
+                        Console.Write("Código: ");
+                        m.Codigo = Console.ReadLine();
+                        Console.Write("Nombre: ");
+                        m.Nombre = Console.ReadLine();
+                        Console.Write("Créditos: ");
+                        m.Creditos = int.Parse(Console.ReadLine());
+                        Console.Write("Cupo máximo: ");
+                        m.CupoMaximo = int.Parse(Console.ReadLine());
+
+                        materias.Add(m);
+                        break;
+
+                    case 4:
+                        Console.Write("ID estudiante: ");
+                        int idEst = int.Parse(Console.ReadLine());
+                        Console.Write("Código materia: ");
+                        string codMat = Console.ReadLine();
+
+                        Materia mat = materias.Find(x => x.Codigo == codMat);
+
+                        if (mat != null && mat.Inscritos < mat.CupoMaximo)
+                        {
+                            Inscripcion ins = new Inscripcion();
+                            ins.IdEstudiante = idEst;
+                            ins.CodigoMateria = codMat;
+
+                            inscripciones.Add(ins);
+                            mat.Inscritos++;
+
+                            Console.WriteLine("Inscripción exitosa");
+                        }
+                        else
+                        {
+                            Console.WriteLine("No hay cupo o materia no existe");
+                        }
+                        break;
+
+                    case 5:
+                        Console.Write("ID estudiante: ");
+                        int idN = int.Parse(Console.ReadLine());
+                        Console.Write("Código materia: ");
+                        string codN = Console.ReadLine();
+
+                        var insc = inscripciones.Find(x => x.IdEstudiante == idN && x.CodigoMateria == codN);
+
+                        if (insc != null)
+                        {
+                            Console.Write("Nota 1: ");
+                            insc.Nota1 = double.Parse(Console.ReadLine());
+                            Console.Write("Nota 2: ");
+                            insc.Nota2 = double.Parse(Console.ReadLine());
+                            Console.Write("Nota 3: ");
+                            insc.Nota3 = double.Parse(Console.ReadLine());
+                        }
+                        else
+                        {
+                            Console.WriteLine("No encontrado");
+                        }
+                        break;
+
+                    case 6:
+                        Console.Write("ID estudiante: ");
+                        int idR = int.Parse(Console.ReadLine());
+
+                        double suma = 0;
+                        int count = 0;
+
+                        foreach (var i in inscripciones)
+                        {
+                            if (i.IdEstudiante == idR)
+                            {
+                                Console.WriteLine($"Materia: {i.CodigoMateria} - Definitiva: {i.Definitiva()}");
+                                suma += i.Definitiva();
+                                count++;
+                            }
+                        }
+
+                        if (count > 0)
+                        {
+                            Console.WriteLine($"Promedio: {suma / count}");
+                        }
+                        break;
+
+                    case 7:
+                        Console.WriteLine("\n Estudiantes ");
+                        foreach (var est in estudiantes)
+                            Console.WriteLine($"{est.Id} - {est.Nombre}");
+
+                        Console.WriteLine("\n Docentes ");
+                        foreach (var doc in docentes)
+                            Console.WriteLine($"{doc.Id} - {doc.Nombre}");
+
+                        Console.WriteLine("\n Materias");
+                        foreach (var mat2 in materias)
+                            Console.WriteLine($"{mat2.Codigo} - {mat2.Nombre} (Cupo: {mat2.Inscritos}/{mat2.CupoMaximo})");
+                        break;
+
+                }
+
+            } while (opcion != 0);
+        }
+    }
+}
